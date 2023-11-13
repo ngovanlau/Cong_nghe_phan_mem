@@ -9,10 +9,10 @@ def home():
 
     cate = dao.get_categories()
     pro = dao.get_products(kw)
-    return render_template('index.html', categories = cate, products = pro)
+    return render_template('index.html', categories=cate, products=pro)
 
 
-#Path param
+# Path param
 @app.route("/hello/<name>")
 def hello(name):
     return render_template('index.html', message="XIN CHAO %s!!!" % name)
@@ -25,4 +25,5 @@ def load_user(user_id):
 
 if __name__ == "__main__":
     from app import admin
+
     app.run(debug=True)
