@@ -12,7 +12,20 @@ def index():
 
     cate = dao.get_categories()
     pro = dao.get_products(kw, cate_id, page)
-    return render_template('index.html', categories=cate, products=pro)
+    return render_template('index.html', products=pro)
+
+
+@app.route("/cart")
+def cart():
+    return render_template('cart.html')
+
+
+@app.context_processor
+def common_respones():
+    return {
+        'categories': dao.get_categories(),
+        'cart_stats': utils.count_cart(session.get('cart'))
+    }
 
 
 # Path param
@@ -21,7 +34,7 @@ def hello(name):
     return render_template('index.html', message="XIN CHAO %s!!!" % name)
 
 
-@app.route('/api/cart', methods=['post'])
+@app.route("/api/cart", methods=['post'])
 def add_to_cart():
     data = request.json
 
@@ -63,7 +76,7 @@ def add_to_cart():
     return jsonify(utils.count_cart(cart))
 
 
-@app.route('/admin/login', methods=['post'])
+@app.route("/admin/login", methods=['post'])
 def login_admin():
     username = request.form.get('username')
     password = request.form.get('password')
